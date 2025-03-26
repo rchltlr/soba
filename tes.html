@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Number Checker</title>
+<style>
+    @keyframes flicker {
+        0% { opacity: 1; box-shadow: 0 0 15px var(--neon-color); }
+        25% { opacity: 0.9; box-shadow: 0 0 25px var(--neon-color); }
+        50% { opacity: 0.8; box-shadow: 0 0 10px var(--neon-color); }
+        75% { opacity: 1; box-shadow: 0 0 35px var(--neon-color); }
+        100% { opacity: 0.95; box-shadow: 0 0 20px var(--neon-color); }
+    }
+
+    @keyframes neonColorChange {
+        0% { --neon-color: #ff00ff; } 
+        25% { --neon-color: #00ffff; } 
+        50% { --neon-color: #ff4500; } 
+        75% { --neon-color: #00ff00; } 
+        100% { --neon-color: #ff00ff; } 
+    }
+
+    body {
+        font-family: Lucida Console, monospace;
+        background-color: #0d0d0d;
+        color: #ffffff;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .container {
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 50px;
+        font-size: 20px;
+        border: 3px solid var(--neon-color);
+        box-shadow: 0 0 20px var(--neon-color), 0 0 40px var(--neon-color);
+        animation: flicker 1.5s infinite alternate, neonColorChange 4s infinite linear;
+    }
+
+    .title {
+        color: var(--neon-color);
+        font-size: 28px;
+        font-weight: bold;
+        text-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color);
+    }
+
+    .input-field {
+        margin: 20px 0;
+        padding: 10px;
+        width: 80%;
+        font-size: 18px;
+        background: #111;
+        color: var(--neon-color);
+        border: 2px solid var(--neon-color);
+        border-radius: 5px;
+        text-align: center;
+        box-shadow: 0 0 10px var(--neon-color);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .input-field:focus {
+        box-shadow: 0 0 20px var(--neon-color);
+        outline: none;
+    }
+
+    .button {
+        background-color: var(--neon-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 18px;
+        text-shadow: 0 0 5px white;
+        box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    .button:hover {
+        box-shadow: 0 0 20px var(--neon-color), 0 0 40px var(--neon-color);
+    }
+
+    .result {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        color: #ffff;
+        text-shadow: 0 0 10px #0000, 0 0 20px #0000;
+    }
+
+    .invalid {
+        color: #ffff;
+        text-shadow: 0 0 10px #0000, 0 0 20px #0000;
+    }
+
+    .footer {
+        margin-top: 50px;
+        font-size: 0.8em;
+        color: #ffffff;
+        text-shadow: 0 0 5px white;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="title">Scientific Number Checker</div>
+    <p>Enter a Scientific Number</p>
+    <input type="text" class="input-field" id="numberInput" placeholder="Type your number here...">
+    <button class="button" onclick="validateNumber()">Check</button>
+    <p></p>
+    <div class="result" id="result"></div>
+</div>
+
+<div class="footer">
+    <p>RACHEL DAMAI KRISTEN TULAR</p>
+    <p>(221011030009)</p>
+    <p>Mathematics Student</p>
+    <div class="credits">Scientific Notation Validator</div>
+</div>
+
+<script>
+    function validateNumber() {
+        const input = document.getElementById('numberInput').value.trim();
+        const resultDiv = document.getElementById('result');
+        
+        // Regular expression for scientific notation
+        const sciNotationRegex = /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/;
+        
+        if (input === "") {
+            resultDiv.textContent = "Please enter a number";
+            resultDiv.className = "invalid";
+            return;
+        }
+        
+        if (sciNotationRegex.test(input)) {
+            const numberValue = parseFloat(input);
+            resultDiv.textContent = `"${input}" is a valid scientific number (value: ${numberValue})`;
+            resultDiv.className = "valid";
+        } else {
+            resultDiv.textContent = `"${input}" is NOT a valid scientific number`;
+            resultDiv.className = "invalid";
+        }
+    }
+    
+    // Allow pressing Enter key to validate
+    document.getElementById('numberInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            validateNumber();
+        }
+    });
+    
+    // Focus on input field when page loads
+    window.onload = function() {
+        document.getElementById('numberInput').focus();
+    };
+</script>
+</body>
+</html>
